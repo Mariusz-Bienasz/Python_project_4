@@ -3,6 +3,7 @@
 ### odejmnij wartości elementów listy pierwszej od drugiej
 ### Wykorzystaj map() i funkcję sub() z modułu operators
 import random
+from functools import reduce
 # list1 = []
 # list2 = []
 #
@@ -22,7 +23,7 @@ import random
 # for i in range(10000):
 #     list1.append(random.randint(1,100))
 #
-# list2 = list((filter(lambda x: x if x < 3 and x%2==0 else None , list1)))
+# list2 = list((filter(lambda x: operator.and_(operator.lt(x, 3), operator.eq(x % 2, 0)), list1))
 #
 # print(list1)
 # print(list2)
@@ -84,10 +85,12 @@ from itertools import compress, dropwhile, filterfalse
 ## oblicz jaką kwotę zgromadzi użytkownik po upływie t = 9mc
 ### Specyfikacja kodu: funkcja, wykorzystanie iteratora skończonego
 
-
-
-
-
+# start = 10000
+# p = 1.0001
+# months = 9
+#
+# list1 = list(accumulate(range(months), lambda x, _: x*p, initial=start))
+# print(list1[9])
 
 ### Task 8
 ### Utwórz własny generator liczb które są kolejnymi wielokrotnosciami liczby cztery tj. 4,16,32,64,... itd
@@ -184,6 +187,7 @@ from itertools import compress, dropwhile, filterfalse
 # list4 = list1 + list2 + list3
 #
 # #a:
+# print("A: \n")
 # time0 = datetime.now().microsecond
 # even = []
 # odd = []
@@ -197,6 +201,7 @@ from itertools import compress, dropwhile, filterfalse
 # print("nieparzyste: " + str(getsizeof(odd)))
 #
 # #b:
+# print("\n B: \n")
 # time0 = datetime.now().microsecond
 # even = [i for i in list4 if i % 2 ==0]
 # odd = [i for i in list4 if i % 2 != 0]
@@ -205,10 +210,16 @@ from itertools import compress, dropwhile, filterfalse
 # print("nieparzyste: " + str(getsizeof(odd)))
 #
 # #c:
-#
+# print("\n C: \n")
+# time0 = datetime.now().microsecond
+# even = list(filter(lambda x: x % 2 == 0, list4))
+# odd = list(filter(lambda x: x % 2 != 0, list4))
+# print("Czas: " + str(datetime.now().microsecond - time0))
+# print("parzyste: " + str(getsizeof(even)))
+# print("nieparzyste: " + str(getsizeof(odd)))
 #
 # #d:
-#
+# print("\n D: \n")
 # def gen():
 #     even = (i for i in list4 if i % 2 == 0)
 #     odd = (i for i in list4 if i % 2 != 0)
@@ -243,22 +254,32 @@ from itertools import compress, dropwhile, filterfalse
 #
 # target = 'PHP'
 # counter = 0
-#
+# # a:
 # for i in list1:
 #     if i == target:
 #         counter += 1
 #
 # print(target + " wystapil w liscie tyle razy: " + str(counter))
 #
+# # b:
 # result = list(filter(lambda x: x == target, list1))
 #
 # print(target + " wystapil w liscie tyle razy: " + str(len(result)))
 #
-# size = len(list1) / 4
+# # c:
+# size = int(len(list1) / 4)
 #
-# x = [list1[i * size:(i+1) * size] for i in range(4)]
+# x = []
 #
-# list2 = []
+# for i in range(4):
+#     start = i*size
+#     end = (i+1)*size
 #
-# for i in x:
-#     maps = []
+#     mini_list = list1[start:end]
+#     x.append(mini_list)
+#
+# mapped = list(map(lambda new_list: new_list.count(target), x))
+#
+# new_result = reduce(lambda a, b: a + b, mapped)
+#
+# print(target + " wystapil w liscie tyle razy: " + str(new_result))
